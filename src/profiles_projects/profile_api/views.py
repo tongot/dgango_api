@@ -51,6 +51,8 @@ class HelloApiView(APIView):
 class HellowViewSet(viewsets.ViewSet):
     """Test API ViewSet"""
 
+    serializer_class = serializers.HelloSerializer
+
     def list(self,request):
         """return hellow msg"""
 
@@ -60,3 +62,35 @@ class HellowViewSet(viewsets.ViewSet):
             'provides more functions with lets code'
         ]
         return Response({'message':'Hello!','a_viewset':a_viewset})
+    def create(self, request):
+        """create a new hello message"""
+
+        serializer_class= serializers.HelloSerializer(data=request.data)
+
+        if serializer_class.is_valid():
+            name= serializer_class.data.get('name')
+            message='Hellow {0}'.format(name)
+            return Response({'message':message})
+        else:
+            return Response(serializer_class.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    def retrieve(self,request,pk=None):
+        """Handels getting an obj by its id"""
+        return Response({'http_methods':'GET'})
+    
+
+    def update(self,request,pk=None):
+        """Handles updating an obj"""
+
+        return Response({'http_method':'PUT'})
+
+    def partial_update(self,request, pk=None):
+        """"Handles update part of an object"""
+
+        return Response({'method':'PATCH'})
+
+    def destroy(self,request,pk=None):
+        """Handles deleting of an object"""
+
+        return Response({'method':'delete'})
