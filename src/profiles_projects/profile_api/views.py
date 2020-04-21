@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from . import serializers
 from rest_framework import status
+from . import models
 
 # Create your views here.
 
@@ -48,6 +49,8 @@ class HelloApiView(APIView):
         """deletes an object with key provided"""
 
         return Response({'method':'delete'}) 
+
+
 class HellowViewSet(viewsets.ViewSet):
     """Test API ViewSet"""
 
@@ -62,6 +65,7 @@ class HellowViewSet(viewsets.ViewSet):
             'provides more functions with lets code'
         ]
         return Response({'message':'Hello!','a_viewset':a_viewset})
+
     def create(self, request):
         """create a new hello message"""
 
@@ -94,3 +98,10 @@ class HellowViewSet(viewsets.ViewSet):
         """Handles deleting of an object"""
 
         return Response({'method':'delete'})
+    
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+        """creating and updating profile"""
+
+        serializer_class= serializers.UserProfileSerializer
+        queryset = models.UserProfile.objects.all()
